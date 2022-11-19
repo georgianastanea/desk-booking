@@ -16,13 +16,11 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appUser_id")
-    private AppUser user;
+    @Column(name = "appUser_id")
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "office_id")
-    private Office office;
+    @Column(name = "office_id")
+    private Long officeId;
 
     private String date;
 

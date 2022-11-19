@@ -25,14 +25,9 @@ public class UserService {
 
     public void removeUser(Long id){
 
-        try {
-            userRepository.findById(id);
-        }catch (CrudOperationException e){
-            System.out.println("User does not exist");
-        }
-//        User user = userRepository.findById(id).orElseThrow(() -> {
-//            throw new CrudOperationException("User does not exist");
-//        });
+         userRepository.findById(id).orElseThrow(() -> {
+            throw new CrudOperationException("User does not exist");
+        });
         userRepository.deleteById(id);
     }
 
