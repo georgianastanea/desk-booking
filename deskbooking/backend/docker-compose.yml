@@ -1,0 +1,25 @@
+version: "3"
+services:
+  java-app:
+    container_name: desk-booking-backend
+    image: "desk-booking-image"
+    ports:
+      - "8084:8080"
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      - spring.datasource.url=jdbc:postgresql://db:5432/desk-booking # db = the name of the container; localhost DOES NOT work; "host.docker.internal" works
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: desk-booking
+    ports:
+        - "5432:5432"
