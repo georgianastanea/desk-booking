@@ -1,11 +1,16 @@
 package com.springboot.DeskBooking.service;
 
 
+import com.springboot.DeskBooking.dto.BookingDto;
+import com.springboot.DeskBooking.dto.UserDto;
 import com.springboot.DeskBooking.entity.AppUser;
+import com.springboot.DeskBooking.entity.Booking;
 import com.springboot.DeskBooking.exceptions.CrudOperationException;
 import com.springboot.DeskBooking.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +23,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public AppUser addUser(AppUser user){
+    public UserDto addUser(UserDto userDto){
+        AppUser user = new ModelMapper().map(userDto,AppUser.class);
         userRepository.save(user);
-        return user;
+        userDto.setId(user.getId());
+        return userDto;
     }
 
     public void removeUser(Long id){
@@ -28,17 +35,18 @@ public class UserService {
          userRepository.findById(id).orElseThrow(() -> {
             throw new CrudOperationException("User does not exist");
         });
+
         userRepository.deleteById(id);
     }
 
-    public AppUser getUserByID(Long id){
+    public UserDto getUserByID(Long id){
         AppUser user = userRepository.findById(id).orElseThrow(() -> {
             throw new CrudOperationException("User does not exist");
         });
-        return user;
+        return new ModelMapper().map(user,UserDto.class);
     }
 
-    public AppUser updateUser(Long id, AppUser newUser){
+    public UserDto updateUser(Long id, UserDto newUser){
         AppUser user = userRepository.findById(id).orElseThrow(() -> {
             throw new CrudOperationException("User does not exist");
         });
@@ -47,10 +55,16 @@ public class UserService {
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
 
-        return user;
+        return new ModelMapper().map(user,UserDto.class);
     }
 
-    public List<AppUser> getAllUsers(){
-        return (List<AppUser>) userRepository.findAll();
+    public List<UserDto> getAllUsers(){
+
+        Iterable<AppUser> iterableUsers = userRepository.findAll();
+        List<UserDto> users = new ArrayList<>();
+
+        iterableUsers.forEach(user -> users.add(new ModelMapper().map(user,UserDto.class)));
+        return users;
+
     }
 }

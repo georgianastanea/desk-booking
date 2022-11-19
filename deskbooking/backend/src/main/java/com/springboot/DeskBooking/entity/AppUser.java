@@ -2,10 +2,8 @@ package com.springboot.DeskBooking.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -19,6 +17,11 @@ public class AppUser {
     private Long id;
     private String email;
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Booking> bookings;
+
+
 
 
 }

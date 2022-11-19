@@ -1,5 +1,6 @@
 package com.springboot.DeskBooking.controller;
 
+import com.springboot.DeskBooking.dto.OfficeDto;
 import com.springboot.DeskBooking.entity.Office;
 import com.springboot.DeskBooking.service.OfficeService;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,17 @@ public class OfficeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Office>> getALlOffices(){
+    public ResponseEntity<List<OfficeDto>> getALlOffices(){
         return ResponseEntity.ok(officeService.getAllOffices());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Office> getOfficeByID(@PathVariable Long id){
+    public ResponseEntity<OfficeDto> getOfficeByID(@PathVariable Long id){
         return ResponseEntity.ok(officeService.getOfficeById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Office> updateOffice(@PathVariable Long id, @RequestBody boolean book){
+    public ResponseEntity<OfficeDto> updateOffice(@PathVariable Long id, @RequestBody boolean book){
         return ResponseEntity.ok(officeService.updateOffice(id,book));
     }
 

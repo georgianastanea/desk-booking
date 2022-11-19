@@ -23,13 +23,13 @@ CREATE TABLE booking
     id SERIAL,
     date character varying(255),
     office_id integer NOT NULL,
-    app_user_id integer NOT NULL
+    user_id integer NOT NULL
 );
 
 ALTER TABLE booking
     ADD CONSTRAINT booking_pkey PRIMARY KEY (id);
 ALTER TABLE booking
-    ADD CONSTRAINT booking_app_user_fk FOREIGN KEY (app_user_id) REFERENCES app_user (id);
+    ADD CONSTRAINT booking_app_user_fk FOREIGN KEY (user_id) REFERENCES app_user (id);
 ALTER TABLE booking
     ADD CONSTRAINT booking_office_fk FOREIGN KEY (office_id) REFERENCES office (id);
 

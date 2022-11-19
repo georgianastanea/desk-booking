@@ -1,13 +1,20 @@
 package com.springboot.DeskBooking.service;
 
+import com.springboot.DeskBooking.dto.BookingDto;
+import com.springboot.DeskBooking.entity.AppUser;
 import com.springboot.DeskBooking.entity.Booking;
+import com.springboot.DeskBooking.entity.Office;
 import com.springboot.DeskBooking.exceptions.CrudOperationException;
 import com.springboot.DeskBooking.repository.BookingRepository;
 import com.springboot.DeskBooking.repository.OfficeRepository;
 import com.springboot.DeskBooking.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookingService {
@@ -23,17 +30,19 @@ public class BookingService {
         this.officeRepository = officeRepository;
     }
 
-    public Booking addBooking(Booking booking) {
-        userRepository.findById(booking.getUserId()).orElseThrow(() -> {
+    public BookingDto addBooking(BookingDto bookingDto) {
+        AppUser user = userRepository.findById(bookingDto.getUserId()).orElseThrow(() -> {
             throw new CrudOperationException("User is not registered!");
         });
 
-        officeRepository.findById(booking.getOfficeId()).orElseThrow(() -> {
+        Office office = officeRepository.findById(bookingDto.getOfficeId()).orElseThrow(() -> {
             throw new CrudOperationException("Invalid office!");
         });
 
+        Booking booking = Booking.builder().user(user).office(office).date(bookingDto.getDate()).build();
         bookingRepository.save(booking);
-        return booking;
+        bookingDto.setId(booking.getId());
+        return bookingDto;
     }
 
     public void removeBooking(Long id) {
@@ -44,27 +53,47 @@ public class BookingService {
         bookingRepository.deleteById(id);
     }
 
-    public Booking getBookingById(Long id) {
-        return bookingRepository.findById(id).orElseThrow(() -> {
+    public BookingDto getBookingById(Long id) {
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> {
             throw new CrudOperationException("Booking does not exist");
         });
+        return new ModelMapper().map(booking,BookingDto.class);
     }
 
-    public Booking updateBooking(Long id, Booking newBooking) {
+    public BookingDto updateBooking(Long id, BookingDto newBooking) {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> {
             throw new CrudOperationException("Booking does not exist");
         });
 
-        booking.setUserId(newBooking.getUserId());
-        booking.setDate(newBooking.getDate());
-        booking.setOfficeId(newBooking.getOfficeId());
-        bookingRepository.save(booking);
+        AppUser user = userRepository.findById(newBooking.getUserId()).orElseThrow(() -> {
+                    throw new CrudOperationException("User does not exist");
+                });
+        Office office = officeRepository.findById(newBooking.getOfficeId()).orElseThrow(() -> {
+            throw new CrudOperationException("Invalid office!");
+        });
 
-        return booking;
+
+        booking.setUser(user);
+        booking.setDate(newBooking.getDate());
+        booking.setOffice(office);
+        bookingRepository.save(booking);
+        newBooking.setId(booking.getId());
+
+        return newBooking;
     }
 
-    public List<Booking> getAllBookings() {
-        return (List<Booking>) bookingRepository.findAll();
+    public List<BookingDto> getAllBookings() {
+        Iterable<Booking> iterableBookings = bookingRepository.findAll();
+        List<BookingDto> bookings = new ArrayList<>();
+
+        iterableBookings.forEach(booking -> bookings.add(BookingDto.builder()
+                .id(booking.getId())
+                .userId(booking.getUser().getId())
+                .officeId(booking.getOffice().getId())
+                .date(booking.getDate())
+                .build()));
+
+        return bookings;
     }
 
 //    public List<Booking> getBookingsByUser(AppUser user){

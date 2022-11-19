@@ -1,6 +1,7 @@
 package com.springboot.DeskBooking.controller;
 
 
+import com.springboot.DeskBooking.dto.BookingDto;
 import com.springboot.DeskBooking.entity.Booking;
 import com.springboot.DeskBooking.service.BookingService;
 import org.springframework.http.HttpStatus;
@@ -20,22 +21,22 @@ public class BookingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Booking>> getAllBookings(){
+    public ResponseEntity<List<BookingDto>> getAllBookings(){
         return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> getBookingById(@PathVariable Long id){
+    public ResponseEntity<BookingDto> getBookingById(@PathVariable Long id){
         return ResponseEntity.ok(bookingService.getBookingById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking){
+    public ResponseEntity<BookingDto> createBooking(@RequestBody BookingDto booking){
         return ResponseEntity.ok(bookingService.addBooking(booking));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Booking> updateBooking(@PathVariable Long id, @RequestBody Booking booking){
+    public ResponseEntity<BookingDto> updateBooking(@PathVariable Long id, @RequestBody BookingDto booking){
         return ResponseEntity.ok(bookingService.updateBooking(id, booking));
     }
 
