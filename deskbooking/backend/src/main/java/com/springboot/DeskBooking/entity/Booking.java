@@ -1,5 +1,6 @@
 package com.springboot.DeskBooking.entity;
 
+import com.springboot.DeskBooking.user.AppUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class Booking {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appUser_id")
+    @JoinColumn(name = "user_id")
     private AppUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
