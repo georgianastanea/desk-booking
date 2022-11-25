@@ -2,8 +2,11 @@ package com.springboot.DeskBooking.controller;
 
 
 import com.springboot.DeskBooking.dto.BookingDto;
-import com.springboot.DeskBooking.entity.Booking;
+import com.springboot.DeskBooking.entity.BookingHistory;
+import com.springboot.DeskBooking.repository.BookingHistoryRepository;
+import com.springboot.DeskBooking.repository.BookingRepository;
 import com.springboot.DeskBooking.service.BookingService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,8 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    public BookingController(BookingService bookingService) {
+
+    public BookingController(BookingService bookingService, BookingRepository historyRepository, BookingHistoryRepository historyRepository1) {
         this.bookingService = bookingService;
     }
 

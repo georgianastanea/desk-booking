@@ -2,8 +2,8 @@ package com.springboot.DeskBooking.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -14,8 +14,8 @@ import javax.persistence.Id;
 public class BookingHistory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String bookingDetails;
-
 
 }

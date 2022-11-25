@@ -3,8 +3,10 @@ package com.springboot.DeskBooking.service;
 import com.springboot.DeskBooking.dto.BookingDto;
 import com.springboot.DeskBooking.entity.AppUser;
 import com.springboot.DeskBooking.entity.Booking;
+import com.springboot.DeskBooking.entity.BookingHistory;
 import com.springboot.DeskBooking.entity.Office;
 import com.springboot.DeskBooking.exceptions.CrudOperationException;
+import com.springboot.DeskBooking.repository.BookingHistoryRepository;
 import com.springboot.DeskBooking.repository.BookingRepository;
 import com.springboot.DeskBooking.repository.OfficeRepository;
 import com.springboot.DeskBooking.repository.UserRepository;
@@ -12,9 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookingService {
@@ -23,11 +23,13 @@ public class BookingService {
     private final UserRepository userRepository;
 
     private final OfficeRepository officeRepository;
+    private final BookingHistoryRepository historyRepository;
 
-    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, OfficeRepository officeRepository) {
+    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, OfficeRepository officeRepository, BookingHistoryRepository historyRepository) {
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
         this.officeRepository = officeRepository;
+        this.historyRepository = historyRepository;
     }
 
     public BookingDto addBooking(BookingDto bookingDto) {
@@ -42,6 +44,7 @@ public class BookingService {
         Booking booking = Booking.builder().user(user).office(office).date(bookingDto.getDate()).build();
         bookingRepository.save(booking);
         bookingDto.setId(booking.getId());
+        historyRepository.save(BookingHistory.builder().bookingDetails(bookingDto.toString()).build());
         return bookingDto;
     }
 
