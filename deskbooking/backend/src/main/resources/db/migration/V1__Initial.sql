@@ -35,18 +35,18 @@ ALTER TABLE booking
 
 INSERT INTO office
 VALUES
-    (1,true,200),
-    (2,true,201),
-    (3,true,202),
-    (4,true,203),
-    (5,true,204),
-    (6,true,205),
-    (7,true,206),
-    (8,true,207),
-    (9,true,208),
-    (10,true,209),
-    (11,true,210),
-    (12,true,211),
-    (13,true,212),
-    (14,true,213),
-    (15,true,214);
+    (1,true,201),
+    (2,true,202),
+    (3,true,203),
+    (4,true,204),
+    (5,true,205),
+    (6,true,206),
+    (7,true,207),
+    (8,true,208),
+    (9,true,209),
+    (10,true,210),
+    (11,true,211),
+    (12,true,212),
+    (13,true,213),
+    (14,true,214),
+    (15,true,215);

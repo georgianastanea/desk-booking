@@ -12,5 +12,10 @@ import lombok.NoArgsConstructor;
 public class BookingHistoryDto {
 
     private Long id;
-    private String bookingDetails;
+
+    private Long userId;
+
+    private Long officeNumber;
+
+    private String date;
 }

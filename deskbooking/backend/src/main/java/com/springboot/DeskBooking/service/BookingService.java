@@ -25,11 +25,14 @@ public class BookingService {
     private final OfficeRepository officeRepository;
     private final BookingHistoryRepository historyRepository;
 
-    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, OfficeRepository officeRepository, BookingHistoryRepository historyRepository) {
+    private OfficeService officeService;
+
+    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, OfficeRepository officeRepository, BookingHistoryRepository historyRepository, OfficeService officeService) {
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
         this.officeRepository = officeRepository;
         this.historyRepository = historyRepository;
+        this.officeService = officeService;
     }
 
     public BookingDto addBooking(BookingDto bookingDto) {
@@ -41,10 +44,12 @@ public class BookingService {
             throw new CrudOperationException("Invalid office!");
         });
 
-        Booking booking = Booking.builder().user(user).office(office).date(bookingDto.getDate()).build();
+        Booking booking = Booking.builder().user(user).office(office).date(transformDate(bookingDto.getDate())).build();
         bookingRepository.save(booking);
+//        officeService.updateOffice(office.getId(),false);
+
         bookingDto.setId(booking.getId());
-        historyRepository.save(BookingHistory.builder().bookingDetails(bookingDto.toString()).build());
+        historyRepository.save(BookingHistory.builder().userId(user.getId()).officeNumber(office.getNumber()).date(booking.getDate()).build());
         return bookingDto;
     }
 
@@ -97,6 +102,14 @@ public class BookingService {
                 .build()));
 
         return bookings;
+    }
+
+    public String transformDate(String inputDate){
+
+        String initialDate = inputDate.substring(6,21);
+        return initialDate.substring(3,6) + " " + initialDate.substring(6,9) +
+                " " + initialDate.substring(9,11) + " " + initialDate.substring(11);
+
     }
 
 //    public List<Booking> getBookingsByUser(AppUser user){

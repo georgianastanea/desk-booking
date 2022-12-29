@@ -23,14 +23,20 @@ public class OfficeController {
         return ResponseEntity.ok(officeService.getAllOffices());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OfficeDto> getOfficeByID(@PathVariable Long id){
-        return ResponseEntity.ok(officeService.getOfficeById(id));
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<OfficeDto> getOfficeByID(@PathVariable Long id){
+//        return ResponseEntity.ok(officeService.getOfficeById(id));
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<OfficeDto> updateOffice(@PathVariable Long id, @RequestBody boolean book){
         return ResponseEntity.ok(officeService.updateOffice(id,book));
     }
+
+    @GetMapping("/{date}")
+    public ResponseEntity<List<OfficeDto>> getOfficesByDate(@PathVariable String date){
+        return ResponseEntity.ok(officeService.getOfficesByDate(date));
+    }
+
 
 }

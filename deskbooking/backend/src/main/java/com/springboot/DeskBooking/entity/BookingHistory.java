@@ -16,6 +16,13 @@ public class BookingHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String bookingDetails;
+
+    private Long userId;
+
+    private Long officeNumber;
+
+    private String date;
+
+
 
 }
