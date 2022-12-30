@@ -1,5 +1,6 @@
 package com.springboot.DeskBooking.entity;
 
+import com.springboot.DeskBooking.user.AppUser;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,7 +1,6 @@
 package com.springboot.DeskBooking.service;
 
 import com.springboot.DeskBooking.dto.BookingDto;
-import com.springboot.DeskBooking.entity.AppUser;
 import com.springboot.DeskBooking.entity.Booking;
 import com.springboot.DeskBooking.entity.BookingHistory;
 import com.springboot.DeskBooking.entity.Office;
@@ -9,7 +8,8 @@ import com.springboot.DeskBooking.exceptions.CrudOperationException;
 import com.springboot.DeskBooking.repository.BookingHistoryRepository;
 import com.springboot.DeskBooking.repository.BookingRepository;
 import com.springboot.DeskBooking.repository.OfficeRepository;
-import com.springboot.DeskBooking.repository.UserRepository;
+import com.springboot.DeskBooking.user.AppUser;
+import com.springboot.DeskBooking.user.AppUserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +20,18 @@ import java.util.List;
 public class BookingService {
     private final BookingRepository bookingRepository;
 
-    private final UserRepository userRepository;
-
     private final OfficeRepository officeRepository;
     private final BookingHistoryRepository historyRepository;
 
+    private final AppUserRepository userRepository;
+
     private OfficeService officeService;
 
-    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, OfficeRepository officeRepository, BookingHistoryRepository historyRepository, OfficeService officeService) {
+    public BookingService(BookingRepository bookingRepository, OfficeRepository officeRepository, BookingHistoryRepository historyRepository, AppUserRepository userRepository, OfficeService officeService) {
         this.bookingRepository = bookingRepository;
-        this.userRepository = userRepository;
         this.officeRepository = officeRepository;
         this.historyRepository = historyRepository;
+        this.userRepository = userRepository;
         this.officeService = officeService;
     }
 
