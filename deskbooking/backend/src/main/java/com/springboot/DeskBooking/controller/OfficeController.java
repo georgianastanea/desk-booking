@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/offices")
+@CrossOrigin(origins = "http://localhost:3000")
 public class OfficeController {
 
     private final OfficeService officeService;
