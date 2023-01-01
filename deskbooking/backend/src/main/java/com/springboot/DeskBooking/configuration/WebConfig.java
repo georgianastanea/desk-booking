@@ -30,9 +30,9 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable().cors().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-//                .antMatchers("/offices").permitAll()
-//                .antMatchers("/bookings").permitAll()
-//                .antMatchers("/history").permitAll()
+                .antMatchers("/offices").permitAll()
+                .antMatchers("/bookings").permitAll()
+                .antMatchers("/history").permitAll()
                 .antMatchers("/registration/**").permitAll()
                 .anyRequest().authenticated().and().formLogin().defaultSuccessUrl("http://localhost:3000/calendar", true);
     }
