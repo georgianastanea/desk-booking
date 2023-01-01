@@ -10,7 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -57,4 +59,13 @@ public class AppUserService implements UserDetailsService {
     public int enableAppUser(String email) {
         return appUserRepository.enableAppUser(email);
     }
+
+    public List<AppUser> activeUsers(){
+
+        List<AppUser> allUsers = appUserRepository.findAll();
+
+        return allUsers.stream().filter(AppUser::getActive).collect(Collectors.toList());
+    }
+
+
 }
