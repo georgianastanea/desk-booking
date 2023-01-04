@@ -18,7 +18,7 @@ public class OfficeService {
 
     private final OfficeRepository officeRepository;
 
-    private HistoryService historyService;
+    private final HistoryService historyService;
 
     public OfficeService(OfficeRepository officeRepository, HistoryService historyService) {
         this.officeRepository = officeRepository;
@@ -30,34 +30,34 @@ public class OfficeService {
         Office office = officeRepository.findById(id).orElseThrow(() -> {
             throw new CrudOperationException("Office does not exist!");
         });
-        return new ModelMapper().map(office,OfficeDto.class);
+        return new ModelMapper().map(office, OfficeDto.class);
     }
 
-    public OfficeDto updateOffice(Long id, boolean book){
-        Office office = officeRepository.findById(id).orElseThrow(() ->{
+    public OfficeDto updateOffice(Long id, boolean book) {
+        Office office = officeRepository.findById(id).orElseThrow(() -> {
             throw new CrudOperationException("Office does not exist!");
         });
 
         office.setAvailable(book);
         officeRepository.save(office);
-        return new ModelMapper().map(office,OfficeDto.class);
+        return new ModelMapper().map(office, OfficeDto.class);
     }
 
-    public List<OfficeDto> getAllOffices(){
+    public List<OfficeDto> getAllOffices() {
 
         Iterable<Office> iterableOffices = officeRepository.findAll();
         List<OfficeDto> offices = new ArrayList<>();
 
-        iterableOffices.forEach(office -> offices.add(new ModelMapper().map(office,OfficeDto.class)));
+        iterableOffices.forEach(office -> offices.add(new ModelMapper().map(office, OfficeDto.class)));
 
         return offices.stream().sorted(Comparator.comparing(OfficeDto::getId)).collect(Collectors.toList());
     }
 
-    public List<OfficeDto> getOfficesByDate(String date){
+    public List<OfficeDto> getOfficesByDate(String date) {
 
-        String initialDate = date.substring(6,21);
-        String finalDate = initialDate.substring(3,6) + " " + initialDate.substring(6,9) +
-                " " + initialDate.substring(9,11) + " " + initialDate.substring(11);
+        String initialDate = date.substring(6, 21);
+        String finalDate = initialDate.substring(3, 6) + " " + initialDate.substring(6, 9) +
+                " " + initialDate.substring(9, 11) + " " + initialDate.substring(11);
 
 
         List<BookingHistoryDto> history = historyService.getHistory();
@@ -69,11 +69,7 @@ public class OfficeService {
         List<OfficeDto> allOffices = getAllOffices();
 
         allOffices.forEach(office -> {
-            if(bookedOffices.contains(office.getNumber()))
-                office.setAvailable(false);
-            else{
-                office.setAvailable(true);
-            }
+            office.setAvailable(!bookedOffices.contains(office.getNumber()));
         });
 
         return allOffices;

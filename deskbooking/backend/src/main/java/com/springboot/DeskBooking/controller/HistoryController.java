@@ -1,6 +1,5 @@
 package com.springboot.DeskBooking.controller;
 
-import com.springboot.DeskBooking.dto.BookingDto;
 import com.springboot.DeskBooking.dto.BookingHistoryDto;
 import com.springboot.DeskBooking.service.HistoryService;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class HistoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookingHistoryDto>> getHistory(){
+    public ResponseEntity<List<BookingHistoryDto>> getHistory() {
         return ResponseEntity.ok(historyService.getHistory());
     }
 }
