@@ -36,6 +36,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     private AppUserRepository userRepository;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
